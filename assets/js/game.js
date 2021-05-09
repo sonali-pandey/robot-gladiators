@@ -125,7 +125,6 @@ while(playerInfo.health > 0 && enemy.health > 0){
 
     // switch turn order for next round
     isPlayerTurn = !isPlayerTurn;
-
 }
 
 };
@@ -181,6 +180,27 @@ var endGame = function() {
     }
     else{
         window.alert("You've lost your robot in battle.");
+    }
+
+    window.alert("The game has now ended. Let's see how you did!");
+
+    // check localStorage for high score, if it's not there, use 0
+    var highScore = localStorage.getItem("highscore");
+    if(highScore === null){
+        highScore = 0;
+    }
+// above if statement can be written as below
+// highScore = highScore || 0;
+
+    // if player has more money than the high score, player has new high score!
+    if(playerInfo.money > highScore){
+        localStorage.setItem("highscore", playerInfo.money);
+        localStorage.setItem("name", playerInfor.name);
+
+        window.alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");
+    }
+    else{
+        window.alert(playerInfo.name + " did not beat the high score of " + highScore + ". Maybe next time!");
     }
 
     // asl player if they'd like to play again
