@@ -47,18 +47,28 @@ var fightOrSkip = function(){
 
         }
     }
-}
+};
+
+
 
 var fight = function(enemy){
 
+    // keep track of who goes first
+    var isPlayerTurn = true;
+
+    // randomly change the turn order
+    if (Math.random()>0.5){
+        isPlayerTurn = false;
+    }
+
 // repeat and execute as long as the enemy-robot is alive
 while(playerInfo.health > 0 && enemy.health > 0){
-
-    // ask player if they'd like to fight or skip using fightOrSkip function
-   if(fightOrSkip()){
-       // if true, leave fight by breaking loop
-       break;
-   }
+    if (isPlayerTurn){
+        // ask player if they'd like to fight or skip using fightOrSkip function
+        if(fightOrSkip()){
+            // if true, leave fight by breaking loop
+            break;
+        }
 
         // generate random damage value based on player's attack power
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
@@ -75,12 +85,21 @@ while(playerInfo.health > 0 && enemy.health > 0){
         //check enemy's health
         if (enemy.health <=0){
             window.alert(enemy.name + " has died!");
+            
+            //award player money for winning
+            playerInfo.money = playerInfo.money + 20;
+
+            //leave while() loop since enemy is dead
             break;
         }
 
         else{
         window.alert(enemy.name + " still has " + enemy.health + " health left.");
         }
+    }
+
+    //player gets attacked first
+    else{
     
         // generate random damage value based on enemy's attack power
         var damage = randomNumber(enemy.attack-3, enemy.attack);
@@ -96,11 +115,16 @@ while(playerInfo.health > 0 && enemy.health > 0){
         //Check player's health
         if (playerInfo.health <= 0){
             window.alert(playerInfo.name + " has died!");
+            //leave while() lop if player is dead
             break;
         }
         else{
             window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
         }
+    }
+
+    // switch turn order for next round
+    isPlayerTurn = !isPlayerTurn;
 
 }
 
